@@ -66,7 +66,10 @@ class Columnar:
         self.no_headers = headers is None
 
         if self.no_headers:
-            headers = [""] * len(data[0])
+            if not data:
+                headers = []
+            else:
+                headers = [""] * len(data[0])
 
         if self.no_borders:
             self.column_sep = " " * 2
@@ -156,6 +159,8 @@ class Columnar:
         # First make sure data is a list of lists
         if type(data) is not list:
             raise TypeError(f"'data' must be a list of lists. Got a {type(data)}")
+        if not data:
+            return data
         if type(data[0]) is not list:
             raise TypeError(f"'data' must be a list of lists. Got a list of {type(data[0])}")
         # Make sure all the lists are the same length
